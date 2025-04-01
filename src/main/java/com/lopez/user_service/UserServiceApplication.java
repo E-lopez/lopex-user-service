@@ -40,6 +40,7 @@ public class UserServiceApplication {
 	MongoOperations mongoTemplate(MongoClient mongoClient) {
 		MongoTemplate template = new MongoTemplate(mongoClient, "users");
 		template.setWriteResultChecking(WriteResultChecking.EXCEPTION);
+		template.indexOps("users").ensureIndex(new Index("idNumber", Direction.ASC).unique());
 		return template;
 	}
 
