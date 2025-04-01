@@ -16,4 +16,8 @@ public interface UserRepository extends MongoRepository<User, String> {
   @Update("{ '$set' : {'companyId': ?1} }")
   Long findByIdAndUpdateCompanyId(String userId, String companyId);
 
+  @Query("{ 'id' : ?0 }")
+  @Update("{ '$set' : {'riskLevel': ?1} }")
+  Long updateUserRisk(String userId, String riskLevel);
+
 }

@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.lopez.user_service.dto.LinkToCompany;
+import com.lopez.user_service.dto.UpdateUserRisk;
 import com.lopez.user_service.dto.UserResponse;
 import com.lopez.user_service.model.User;
 import com.lopez.user_service.repository.UserRepository;
@@ -42,6 +43,7 @@ public class UserService {
   }
 
   public ResponseEntity<Object> fetchUserById(String id) {
+    logger.warn("USER ID: {}", id);
     Optional<User> user = userRepository.findById(id);
     if (user.isPresent()) {
       UserResponse userResponse = new UserResponse(
@@ -82,6 +84,15 @@ public class UserService {
       userRepository.findByIdAndUpdateCompanyId(updateData.getUserId(), updateData.getCompanyId());
       response.put("message", "USER_LINKED");
       return new ResponseEntity<>(response, HttpStatus.OK);
+    } catch (Exception e) {
+      return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  public ResponseEntity<Object> updateUserRisk(UpdateUserRisk updateData) {
+    try {
+      userRepository.updateUserRisk(updateData.getUserId(), updateData.getRiskLevel());
+      return this.fetchUserById(updateData.getUserId());
     } catch (Exception e) {
       return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }

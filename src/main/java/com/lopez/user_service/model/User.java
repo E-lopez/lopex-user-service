@@ -18,7 +18,7 @@ public class User {
   @Id
   private String id;
   @Indexed(unique = true)
-  private String identity;
+  private String idNumber;
   private String userName;
   private String dateOfBirth;
   private String gender;

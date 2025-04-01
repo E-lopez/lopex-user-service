@@ -7,14 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserResponse {
+public class UpdateUserRisk {
 
-  private String id;
-  private String userName;
-  private String idNumber;
-  private String dateOfBirth;
-  private String gender;
-  private String occupation;
+  private String userId;
   private String riskLevel;
 
 }

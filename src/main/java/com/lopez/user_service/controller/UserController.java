@@ -5,9 +5,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lopez.user_service.dto.LinkToCompany;
+import com.lopez.user_service.dto.UpdateUserRisk;
 import com.lopez.user_service.dto.UserResponse;
 import com.lopez.user_service.model.User;
 import com.lopez.user_service.service.UserService;
+
+import org.springframework.http.HttpStatus;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +52,7 @@ public class UserController {
   public ResponseEntity<Object> createUser(@RequestBody UserResponse user) {
     User persistentUser = new User();
     persistentUser.setUserName(user.getUserName());
-    persistentUser.setIdentity(user.getIdentity());
+    persistentUser.setIdNumber(user.getIdNumber());
     persistentUser.setDateOfBirth(user.getDateOfBirth());
     persistentUser.setGender(user.getGender());
     persistentUser.setOccupation(user.getOccupation());
@@ -57,13 +60,12 @@ public class UserController {
     return userService.createUser(persistentUser);
   }
 
-  @PutMapping
-  public ResponseEntity<Object> linkToCompanyByIdString(@RequestBody LinkToCompany data) {
-    LinkToCompany updateData = new LinkToCompany();
-    updateData.setUserId(data.getUserId());
-    updateData.setCompanyId(data.getCompanyId());
-
-    return userService.linkToCompany(updateData);
+  @PostMapping("/risk")
+  public ResponseEntity<Object> updateUserRisk(@RequestBody UpdateUserRisk payload) {
+    UpdateUserRisk updateRisk = new UpdateUserRisk();
+    updateRisk.setUserId(payload.getUserId());
+    updateRisk.setRiskLevel(payload.getRiskLevel());
+    return userService.updateUserRisk(updateRisk);
   }
 
   @DeleteMapping
